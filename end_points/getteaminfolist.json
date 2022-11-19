@@ -1,0 +1,44 @@
+[
+  {
+    "teamId": 1,
+    "isShowLogo": false,
+    "logoPicUrl": "http://xxx/xxx.png",
+    "killNum": 20,
+    "liveMemberNum": 1
+  },
+  {
+    "teamId": 2,
+    "isShowLogo": false,
+    "logoPicUrl": "http://xxx/xxx.png",
+    "killNum": 21,
+    "liveMemberNum": 1
+  },
+  {
+    "teamId": 3,
+    "isShowLogo": false,
+    "logoPicUrl": "http://xxx/xxx.png",
+    "killNum": 3,
+    "liveMemberNum": 1
+  },
+  {
+    "teamId": 4,
+    "isShowLogo": false,
+    "logoPicUrl": "http://xxx/xxx.png",
+    "killNum": 14,
+    "liveMemberNum": 1
+  },
+  {
+    "teamId": 5,
+    "isShowLogo": false,
+    "logoPicUrl": "http://xxx/xxx.png",
+    "killNum": 10,
+    "liveMemberNum": 1
+  },
+  {
+    "teamId": 6,
+    "isShowLogo": false,
+    "logoPicUrl": "http://xxx/xxx.png",
+    "killNum": 3,
+    "liveMemberNum": 1
+  }
+]
