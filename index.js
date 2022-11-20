@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import * as getData from './files/get_data.js'
-import * as setUID from './files/set_uid.js'
+import * as getData from './files/getData.js'
+import * as setUID from './files/setUid.js'
 import express from 'express'
 import { Match, Team, Player, Info } from './files/schema.js'
 import path from 'path'
