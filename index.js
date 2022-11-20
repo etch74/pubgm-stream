@@ -5,7 +5,6 @@ import express from 'express'
 import { Match, Team, Player, Info } from './files/schema.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { match } from 'assert'
 
 const __filename = fileURLToPath(import.meta.url)
 
