@@ -1,4 +1,4 @@
-import { Match } from './files/schema.js'
+import { Team } from './files/schema.js'
 
 const container = document.querySelector('.container')
 const title = document.querySelector('h1')
