@@ -2,9 +2,10 @@ import mongoose from 'mongoose'
 import * as getData from './files/get_data.js'
 import * as setUID from './files/set_uid.js'
 import express from 'express'
-import { Match } from './files/schema.js'
+import { Match, Team, Player, Info } from './files/schema.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { match } from 'assert'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -21,8 +22,8 @@ mongoose.connect(mongoDB).then(() => {
   console.log('CONNECTED')
 })
 
-app.use(express.static(path.join(__dirname, 'end_points')))
-app.use(express.static(path.join(__dirname, 'views')))
+app.use(express.static(path.join(__dirname, 'endPoints')))
+app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }))
 
 const createMatch = async () => {
   const matchExist = await Match.findOne({ matchName })
@@ -47,8 +48,19 @@ app.get('/', function (req, res) {
   res.send('Hello')
 })
 
-app.get('/map-overlay', function (req, res) {
-  res.sendFile(path.join(__dirname, 'views/map_overlay/index.html'))
+app.get('/get-teams', async function (req, res) {
+  const teams = await Team.find({})
+  res.send(teams)
+})
+
+app.get('/get-players', async function (req, res) {
+  const players = await Player.find({})
+  res.send(players)
+})
+
+app.get('/get-info', async function (req, res) {
+  const info = await Info.find({})
+  res.send(info)
 })
 
 setInterval(() => {
