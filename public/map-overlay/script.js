@@ -33,7 +33,7 @@ const createTable = async () => {
     aliveContainer.classList.add(`alive-container-${index + 1}`)
     aliveContainer.classList.add('alive-container')
     row.append(aliveContainer)
-    for (let index = 0; index < 4; index++) {
+    for (let index = 0; index < team.players.length; index++) {
       const playerAlive = document.createElement('div')
       playerAlive.classList.add(`player-${index + 1}-alive`)
       playerAlive.classList.add('player-alive')

@@ -12,8 +12,11 @@ const gameGlobalInfoEndPoint = 'getgameglobalinfo.json'
 const circleInfoEndPoint = 'setcircleinfo.json'
 
 export const getTeamData = async () => {
-  const res = await axios.get(`${apiServer}${teamsEndPoint}`)
-  const teams = res.data
+  const teamRes = await axios.get(`${apiServer}${teamsEndPoint}`)
+  const teams = teamRes.data
+
+  const playersRes = await axios.get(`${apiServer}${payersEndPoint}`)
+  const players = playersRes.data
 
   teams.forEach(async (team) => {
     await Team.findOneAndUpdate(
@@ -28,6 +31,14 @@ export const getTeamData = async () => {
         upsert: true,
         runValidators: true,
       }
+    )
+  })
+
+  players.forEach(async (player) => {
+    const playerTeam = player.teamId
+    await Team.findOneAndUpdate(
+      { teamId: playerTeam },
+      { $addToSet: { players: player.uID } }
     )
   })
 }
