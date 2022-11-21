@@ -5,6 +5,7 @@ const teamSchema = new mongoose.Schema(
     teamUID: String,
     name: String,
     logo: String,
+    players: [Number],
     // From API
     teamId: Number,
     killNum: Number,
@@ -47,10 +48,14 @@ export const Info = mongoose.model('Info', infoSchema)
 
 const matchSchema = new mongoose.Schema(
   {
-    matchNumber: Number,
-    matchName: {
+    name: {
       type: String,
       lowercase: true,
+    },
+    type: {
+      type: Number,
+      min: 1,
+      max: 4,
     },
   },
   { timestamps: true }

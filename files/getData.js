@@ -26,6 +26,7 @@ export const getTeamData = async () => {
       {
         new: true,
         upsert: true,
+        runValidators: true,
       }
     )
   })
@@ -53,6 +54,7 @@ export const getPlayerData = async () => {
       {
         new: true,
         upsert: true,
+        runValidators: true,
       }
     )
   })
@@ -69,6 +71,7 @@ export const getCircleInfo = async () => {
       {
         new: true,
         upsert: true,
+        runValidators: true,
       }
     )
   }

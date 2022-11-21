@@ -15,6 +15,7 @@ app.listen(3000)
 
 let tournamentName = 'pubgm'
 let matchName = 'Pre-Finals'
+let matchType = 4
 const mongoDB = `mongodb://localhost:27017/${tournamentName}`
 
 mongoose.connect(mongoDB).then(() => {
@@ -25,18 +26,20 @@ app.use(express.static(path.join(__dirname, 'endPoints')))
 app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }))
 
 const createMatch = async () => {
-  const matchExist = await Match.findOne({ matchName })
+  const matchExist = await Match.findOne({ name: matchName })
   if (!matchExist) {
     setUID.setTeamUID()
   }
   await Match.findOneAndUpdate(
-    { matchName: matchName },
+    { name: matchName },
     {
-      matchName: matchName,
+      name: matchName,
+      type: matchType,
     },
     {
       new: true,
       upsert: true,
+      runValidators: true,
     }
   )
 }
