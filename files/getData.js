@@ -1,6 +1,6 @@
 import { Team, Player, Info } from './schema.js'
 import axios from 'axios'
-import { nanoid } from 'nanoid'
+import * as config from './config.js'
 
 let apiServer = 'http://localhost:3000/'
 
@@ -18,10 +18,11 @@ export const getTeamData = async () => {
   const playersRes = await axios.get(`${apiServer}${payersEndPoint}`)
   const players = playersRes.data
 
-  teams.forEach(async (team) => {
+  teams.forEach(async (team, index) => {
     await Team.findOneAndUpdate(
       { teamId: team.teamId },
       {
+        name: config.teamsNames[team.teamId],
         teamId: team.teamId,
         killNum: team.killNum,
         liveMemberNum: team.liveMemberNum,
@@ -38,7 +39,14 @@ export const getTeamData = async () => {
     const playerTeam = player.teamId
     await Team.findOneAndUpdate(
       { teamId: playerTeam },
-      { $addToSet: { players: player.uID } }
+      { $pull: { players: player.uID } }
+    )
+  })
+  players.forEach(async (player) => {
+    const playerTeam = player.teamId
+    await Team.findOneAndUpdate(
+      { teamId: playerTeam },
+      { $push: { players: player.uID } }
     )
   })
 }

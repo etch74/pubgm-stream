@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import * as getData from './files/getData.js'
 import * as setUID from './files/setUid.js'
+import * as config from './files/config.js'
 import express from 'express'
 import { Match, Team, Player, Info } from './files/schema.js'
 import path from 'path'
@@ -13,10 +14,7 @@ const __dirname = path.dirname(__filename)
 const app = express()
 app.listen(3000)
 
-let tournamentName = 'pubgm'
-let matchName = 'Pre-Finals'
-let matchType = 4
-const mongoDB = `mongodb://localhost:27017/${tournamentName}`
+const mongoDB = `mongodb://localhost:27017/${config.tournamentName}`
 
 mongoose.connect(mongoDB).then(() => {
   console.log('CONNECTED')
@@ -26,15 +24,15 @@ app.use(express.static(path.join(__dirname, 'endPoints')))
 app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }))
 
 const createMatch = async () => {
-  const matchExist = await Match.findOne({ name: matchName })
+  const matchExist = await Match.findOne({ name: config.matchName })
   if (!matchExist) {
     setUID.setTeamUID()
   }
   await Match.findOneAndUpdate(
-    { name: matchName },
+    { name: config.matchName },
     {
-      name: matchName,
-      type: matchType,
+      name: config.matchName,
+      type: config.matchType,
     },
     {
       new: true,
