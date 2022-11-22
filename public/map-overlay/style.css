@@ -5,6 +5,7 @@
 
 body {
     font-family:'AgencyFB', sans-serif;
+    text-transform: uppercase;
     margin: 0;
     height: 100vh;
     display: flex;
@@ -23,11 +24,11 @@ h1 {
 
 .table-container {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 20px;
 }
 
 .row {
     display: flex;
-    flex-direction: column;
 }

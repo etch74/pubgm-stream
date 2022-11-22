@@ -24,6 +24,7 @@ const createTable = async () => {
     const teamName = document.createElement('p')
     teamName.classList.add(`team-${index + 1}-name`)
     teamName.classList.add('team-name')
+    teamName.innerText = team.name
     row.append(teamName)
     const teamPts = document.createElement('p')
     teamPts.classList.add(`team-${index + 1}-pts`)
@@ -44,4 +45,4 @@ const createTable = async () => {
 
 setInterval(async () => {
   createTable()
-}, 1000)
+}, 2000)

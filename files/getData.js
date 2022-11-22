@@ -1,6 +1,7 @@
 import { Team, Player, Info } from './schema.js'
 import axios from 'axios'
 import * as config from './config.js'
+import { nanoid } from 'nanoid'
 
 let apiServer = 'http://localhost:3000/'
 
@@ -11,6 +12,15 @@ const payersEndPoint = 'gettotalplayerlist.json'
 const gameGlobalInfoEndPoint = 'getgameglobalinfo.json'
 const circleInfoEndPoint = 'setcircleinfo.json'
 
+export const setTeamUID = async () => {
+  const res = await axios.get(`${apiServer}${teamsEndPoint}`)
+  const teams = res.data
+
+  teams.forEach(async (team) => {
+    Team.insertMany({ teamUID: nanoid(12), teamId: team.teamId })
+  })
+}
+
 export const getTeamData = async () => {
   const teamRes = await axios.get(`${apiServer}${teamsEndPoint}`)
   const teams = teamRes.data
@@ -18,7 +28,7 @@ export const getTeamData = async () => {
   const playersRes = await axios.get(`${apiServer}${payersEndPoint}`)
   const players = playersRes.data
 
-  teams.forEach(async (team, index) => {
+  teams.forEach(async (team) => {
     await Team.findOneAndUpdate(
       { teamId: team.teamId },
       {

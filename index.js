@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import * as getData from './files/getData.js'
-import * as setUID from './files/setUid.js'
 import * as config from './files/config.js'
 import express from 'express'
 import { Match, Team, Player, Info } from './files/schema.js'
@@ -26,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }))
 const createMatch = async () => {
   const matchExist = await Match.findOne({ name: config.matchName })
   if (!matchExist) {
-    setUID.setTeamUID()
+    getData.setTeamUID()
   }
   await Match.findOneAndUpdate(
     { name: config.matchName },
