@@ -1,7 +1,12 @@
 import { Match, Team, Player, Info } from './schema.js'
 import axios from 'axios'
 import * as config from './config.js'
-import { nanoid } from 'nanoid'
+import * as fs from 'fs'
+
+import path from 'path'
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 let apiServer = 'http://localhost:3000/'
 
@@ -13,7 +18,11 @@ const gameGlobalInfoEndPoint = 'getgameglobalinfo.json'
 const circleInfoEndPoint = 'setcircleinfo.json'
 
 export const createMatch = async () => {
-  const matchExist = await Match.findOne({ name: config.matchName })
+  const dir = `./assets/teamsLogos/${config.matchName}`
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir)
+  }
+
   await Match.findOneAndUpdate(
     { name: config.matchName },
     {
@@ -62,6 +71,7 @@ export const getTeamData = async () => {
     await Team.findOneAndUpdate(
       { teamId: team.teamId },
       {
+        logo: `/teamsLogos/${config.matchName}/${team.teamId}.jpg`,
         killNum: team.killNum,
         liveMemberNum: team.liveMemberNum,
       },

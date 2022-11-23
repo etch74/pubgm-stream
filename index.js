@@ -3,11 +3,10 @@ import * as getData from './files/getData.js'
 import * as config from './files/config.js'
 import express from 'express'
 import { Match, Team, Player, Info } from './files/schema.js'
+
 import path from 'path'
 import { fileURLToPath } from 'url'
-
 const __filename = fileURLToPath(import.meta.url)
-
 const __dirname = path.dirname(__filename)
 
 const app = express()
@@ -21,6 +20,7 @@ mongoose.connect(mongoDB).then(() => {
 
 app.use(express.static(path.join(__dirname, 'endPoints')))
 app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }))
+app.use(express.static(path.join(__dirname, 'assets')))
 
 app.get('/', function (req, res) {
   res.send('Hello')

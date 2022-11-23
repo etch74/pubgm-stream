@@ -32,3 +32,7 @@ h1 {
 .row {
     display: flex;
 }
+
+.row img {
+    width: 50px;
+}
