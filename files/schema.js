@@ -57,6 +57,7 @@ const matchSchema = new mongoose.Schema(
       min: 1,
       max: 4,
     },
+    teams: [String],
   },
   { timestamps: true }
 )

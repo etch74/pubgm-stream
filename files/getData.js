@@ -1,4 +1,4 @@
-import { Team, Player, Info } from './schema.js'
+import { Match, Team, Player, Info } from './schema.js'
 import axios from 'axios'
 import * as config from './config.js'
 import { nanoid } from 'nanoid'
@@ -12,12 +12,42 @@ const payersEndPoint = 'gettotalplayerlist.json'
 const gameGlobalInfoEndPoint = 'getgameglobalinfo.json'
 const circleInfoEndPoint = 'setcircleinfo.json'
 
-export const setTeamUID = async () => {
+export const createMatch = async () => {
+  const matchExist = await Match.findOne({ name: config.matchName })
+  await Match.findOneAndUpdate(
+    { name: config.matchName },
+    {
+      name: config.matchName,
+      type: config.matchType,
+    },
+    {
+      new: true,
+      upsert: true,
+      runValidators: true,
+    }
+  )
+}
+
+export const createTeam = async () => {
   const res = await axios.get(`${apiServer}${teamsEndPoint}`)
   const teams = res.data
 
-  teams.forEach(async (team) => {
-    Team.insertMany({ teamUID: nanoid(12), teamId: team.teamId })
+  teams.forEach(async (team, index) => {
+    await Team.findOneAndUpdate(
+      { name: config.teamsNames[index + 1] },
+      {
+        teamId: team.teamId,
+      },
+      {
+        new: true,
+        upsert: true,
+        runValidators: true,
+      }
+    )
+    await Match.findOneAndUpdate(
+      { name: config.matchName },
+      { $addToSet: { teams: config.teamsNames[index + 1] } }
+    )
   })
 }
 
@@ -32,14 +62,10 @@ export const getTeamData = async () => {
     await Team.findOneAndUpdate(
       { teamId: team.teamId },
       {
-        name: config.teamsNames[team.teamId],
-        teamId: team.teamId,
         killNum: team.killNum,
         liveMemberNum: team.liveMemberNum,
       },
       {
-        new: true,
-        upsert: true,
         runValidators: true,
       }
     )

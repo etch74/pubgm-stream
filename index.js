@@ -22,27 +22,6 @@ mongoose.connect(mongoDB).then(() => {
 app.use(express.static(path.join(__dirname, 'endPoints')))
 app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }))
 
-const createMatch = async () => {
-  const matchExist = await Match.findOne({ name: config.matchName })
-  if (!matchExist) {
-    getData.setTeamUID()
-  }
-  await Match.findOneAndUpdate(
-    { name: config.matchName },
-    {
-      name: config.matchName,
-      type: config.matchType,
-    },
-    {
-      new: true,
-      upsert: true,
-      runValidators: true,
-    }
-  )
-}
-
-createMatch()
-
 app.get('/', function (req, res) {
   res.send('Hello')
 })
@@ -63,6 +42,8 @@ app.get('/get-info', async function (req, res) {
 })
 
 setInterval(() => {
+  getData.createMatch()
+  getData.createTeam()
   getData.getCircleInfo()
   getData.getPlayerData()
   getData.getTeamData()
